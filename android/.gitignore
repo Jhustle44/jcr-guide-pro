@@ -1,0 +1,24 @@
+*.iml
+.gradle
+/local.properties
+/.idea/
+.DS_Store
+/build
+**/build/
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+*.keystore
+*.jks
+release.properties
+google-services.json
+
+# Web asset sync artifacts
+app/src/main/assets/www/
+app/src/main/assets/assets/
+app/src/main/assets/index.html
+app/src/main/assets/manifest.json
+app/src/main/assets/sw.js
+app/src/main/assets/version.json
+app/src/main/assets/icon-*.svg

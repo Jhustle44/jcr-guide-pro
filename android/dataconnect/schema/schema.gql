@@ -1,0 +1,40 @@
+type Device @table {
+  manufacturer: String!
+  modelName: String!
+  releaseYear: Int
+  imageUrl: String
+}
+
+type Guide @table {
+  title: String!
+  difficultyLevel: String!
+  estimatedTimeMinutes: Int!
+  description: String
+  videoUrl: String
+  device: Device
+  category: Category
+}
+
+type Step @table {
+  sequenceOrder: Int!
+  instructionText: String!
+  imageUrl: String
+  guide: Guide!
+}
+
+type Category @table {
+  name: String!
+  iconUrl: String
+}
+
+type UserBookmark @table {
+  userId: String!
+  guide: Guide!
+}
+
+type Part @table {
+  partName: String!
+  partType: String!
+  compatibilityNotes: String
+  device: Device!
+}

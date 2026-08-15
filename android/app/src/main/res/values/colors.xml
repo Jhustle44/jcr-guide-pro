@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6366F1</color> <!-- Indigo 500 -->
+    <color name="colorPrimaryDark">#4F46E5</color> <!-- Indigo 600 -->
+    <color name="colorAccent">#6366F1</color>
+    <color name="windowBackground">#020617</color> <!-- Elegant Dark Background -->
+</resources>
