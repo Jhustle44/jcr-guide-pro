@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RepairGuide Pro - Laptop & PC Repair Instructions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: {
+                    'roboto': ['Roboto', 'sans-serif'],
+                    'roboto-mono': ['Roboto Mono', 'monospace'],
+                },
+                colors: {
+                    'primary': {
+                        50: '#E3F2FD',
+                        500: '#2196F3',
+                        700: '#1976D2',
+                        900: '#0D47A1'
+                    },
+                    'success': {
+                        500: '#4CAF50',
+                        600: '#388E3C'
+                    },
+                    'warning': {
+                        500: '#FF9800',
+                        700: '#F57C00'
+                    },
+                    'danger': {
+                        500: '#F44336',
+                        700: '#D32F2F'
+                    }
+                },
+                boxShadow: {
+                    'material': '0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1)',
+                    'material-lg': '0 4px 8px rgba(0,0,0,0.12), 0 16px 32px rgba(0,0,0,0.12)'
+                }
+            }
+        }
+    };
+    </script>
+</head>
+<body class="font-roboto bg-gray-50 text-gray-900">
+    <!-- @COMPONENT: AppHeader [search, navigation, user menu] -->
+    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo and Brand -->
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="material-icons text-primary-700 text-2xl">build</span>
+                        <h1 class="text-xl font-medium text-gray-900">RepairGuide Pro</h1>
+                    </div>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="flex-1 max-w-2xl mx-8">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="material-icons text-gray-400 text-xl">search</span>
+                        </div>
+                        <input type="text" 
+                               class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" 
+                               placeholder="Search repair guides, issues, or parts..."
+                               data-bind="searchQuery">
+                    </div>
+                </div>
+
+                <!-- User Actions -->
+                <div class="flex items-center space-x-4">
+                    <button class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                            data-event="click:toggleBookmarks">
+                        <span class="material-icons">bookmark_border</span>
+                    </button>
+                    <button class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                            data-event="click:printPage">
+                        <span class="material-icons">print</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- @END_COMPONENT: AppHeader -->
+
+    <!-- @COMPONENT: MainContent [device selection, categories, guides] -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        
+        <!-- Device Type Selection -->
+        <!-- @COMPONENT: DeviceTypeSelector [laptop/desktop toggle] -->
+        <section class="mb-8">
+            <div class="bg-white rounded-xl shadow-material p-6">
+                <h2 class="text-lg font-medium text-gray-900 mb-4">Select Device Type</h2>
+                <div class="flex space-x-4">
+                    <button class="flex items-center space-x-3 px-6 py-4 bg-primary-700 text-white rounded-lg hover:bg-primary-900 transition-colors"
+                            data-event="click:selectDeviceType" data-device="laptop">
+                        <span class="material-icons text-2xl">laptop_mac</span>
+                        <span class="font-medium">Laptops</span>
+                    </button>
+                    <button class="flex items-center space-x-3 px-6 py-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                            data-event="click:selectDeviceType" data-device="desktop">
+                        <span class="material-icons text-2xl">desktop_windows</span>
+                        <span class="font-medium">Desktops</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+        <!-- @END_COMPONENT: DeviceTypeSelector -->
+
+        <!-- Quick Access Categories -->
+        <!-- @COMPONENT: CategoryGrid [hardware, software, cleaning, upgrades] -->
+        <section class="mb-8">
+            <h2 class="text-lg font-medium text-gray-900 mb-4">Repair Categories</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- @MAP: categories.map(category => ( -->
+                <div class="bg-white rounded-xl shadow-material p-6 hover:shadow-material-lg transition-shadow cursor-pointer"
+                     data-event="click:selectCategory" data-category="hardware">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <span class="material-icons text-primary-700 text-2xl">memory</span>
+                        <h3 class="font-medium text-gray-900">Hardware</h3>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">Component repairs, replacements, and installations</p>
+                    <span class="inline-block px-2 py-1 bg-primary-50 text-primary-700 text-xs rounded-full">23 guides</span>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-material p-6 hover:shadow-material-lg transition-shadow cursor-pointer"
+                     data-event="click:selectCategory" data-category="software">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <span class="material-icons text-success-600 text-2xl">code</span>
+                        <h3 class="font-medium text-gray-900">Software</h3>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">OS troubleshooting, driver issues, and system recovery</p>
+                    <span class="inline-block px-2 py-1 bg-success-50 text-success-600 text-xs rounded-full">18 guides</span>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-material p-6 hover:shadow-material-lg transition-shadow cursor-pointer"
+                     data-event="click:selectCategory" data-category="cleaning">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <span class="material-icons text-warning-700 text-2xl">cleaning_services</span>
+                        <h3 class="font-medium text-gray-900">Cleaning</h3>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">Dust removal, thermal paste, and maintenance</p>
+                    <span class="inline-block px-2 py-1 bg-warning-50 text-warning-700 text-xs rounded-full">12 guides</span>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-material p-6 hover:shadow-material-lg transition-shadow cursor-pointer"
+                     data-event="click:selectCategory" data-category="upgrades">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <span class="material-icons text-purple-600 text-2xl">upgrade</span>
+                        <h3 class="font-medium text-gray-900">Upgrades</h3>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">RAM, storage, and performance improvements</p>
+                    <span class="inline-block px-2 py-1 bg-purple-50 text-purple-600 text-xs rounded-full">15 guides</span>
+                </div>
+                <!-- @END_MAP )) -->
+            </div>
+        </section>
+        <!-- @END_COMPONENT: CategoryGrid -->
+
+        <!-- Featured Repair Guides -->
+        <!-- @COMPONENT: RepairGuidesList [filtering, sorting, difficulty indicators] -->
+        <section class="mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-medium text-gray-900">Popular Repair Guides</h2>
+                <div class="flex items-center space-x-4">
+                    <select class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                            data-bind="sortOption">
+                        <option>Most Popular</option>
+                        <option>Difficulty: Easy to Hard</option>
+                        <option>Recently Updated</option>
+                        <option>Estimated Time</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- @MAP: popularGuides.map(guide => ( -->
+                <div class="bg-white rounded-xl shadow-material hover:shadow-material-lg transition-shadow">
+                    <!-- A laptop motherboard with visible components and circuitry for hardware repair identification -->
+                    <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=300" 
+                         alt="Laptop motherboard components" 
+                         class="w-full h-48 object-cover rounded-t-xl">
+                    
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="inline-block px-2 py-1 bg-success-50 text-success-600 text-xs font-medium rounded-full">EASY</span>
+                                <span class="inline-block px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">30-45 min</span>
+                            </div>
+                            <button class="p-1 text-gray-400 hover:text-primary-700 transition-colors"
+                                    data-event="click:toggleBookmark">
+                                <span class="material-icons text-sm">bookmark_border</span>
+                            </button>
+                        </div>
+
+                        <h3 class="font-medium text-gray-900 mb-2">Laptop RAM Upgrade Installation</h3>
+                        <p class="text-sm text-gray-600 mb-4">Step-by-step guide to upgrading laptop memory including compatibility checks and installation procedures.</p>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                <span class="flex items-center space-x-1">
+                                    <span class="material-icons text-sm">tools</span>
+                                    <span>3 tools</span>
+                                </span>
+                                <span class="flex items-center space-x-1">
+                                    <span class="material-icons text-sm">visibility</span>
+                                    <span>1.2k views</span>
+                                </span>
+                            </div>
+                            <button class="px-4 py-2 bg-primary-700 text-white text-sm rounded-lg hover:bg-primary-900 transition-colors"
+                                    data-event="click:viewGuide">
+                                View Guide
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-material hover:shadow-material-lg transition-shadow">
+                    <!-- A computer screen showing BIOS/UEFI interface for system troubleshooting -->
+                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=300" 
+                         alt="Computer BIOS interface" 
+                         class="w-full h-48 object-cover rounded-t-xl">
+                    
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="inline-block px-2 py-1 bg-warning-50 text-warning-700 text-xs font-medium rounded-full">MEDIUM</span>
+                                <span class="inline-block px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">60-90 min</span>
+                            </div>
+                            <button class="p-1 text-gray-400 hover:text-primary-700 transition-colors">
+                                <span class="material-icons text-sm">bookmark_border</span>
+                            </button>
+                        </div>
+
+                        <h3 class="font-medium text-gray-900 mb-2">Boot Failure Troubleshooting</h3>
+                        <p class="text-sm text-gray-600 mb-4">Comprehensive flowchart and procedures to diagnose and fix common boot issues in laptops and desktops.</p>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                <span class="flex items-center space-x-1">
+                                    <span class="material-icons text-sm">warning</span>
+                                    <span>Safety critical</span>
+                                </span>
+                                <span class="flex items-center space-x-1">
+                                    <span class="material-icons text-sm">visibility</span>
+                                    <span>856 views</span>
+                                </span>
+                            </div>
+                            <button class="px-4 py-2 bg-primary-700 text-white text-sm rounded-lg hover:bg-primary-900 transition-colors">
+                                View Guide
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-material hover:shadow-material-lg transition-shadow">
+                    <!-- Cooling fan and heat sink assembly from a laptop for thermal management repair -->
+                    <img src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=300" 
+                         alt="Laptop cooling fan and heat sink" 
+                         class="w-full h-48 object-cover rounded-t-xl">
+                    
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="inline-block px-2 py-1 bg-success-50 text-success-600 text-xs font-medium rounded-full">EASY</span>
+                                <span class="inline-block px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">20-30 min</span>
+                            </div>
+                            <button class="p-1 text-gray-400 hover:text-primary-700 transition-colors">
+                                <span class="material-icons text-sm">bookmark_border</span>
+                            </button>
+                        </div>
+
+                        <h3 class="font-medium text-gray-900 mb-2">Laptop Fan Cleaning & Maintenance</h3>
+                        <p class="text-sm text-gray-600 mb-4">Prevent overheating with proper fan cleaning techniques and thermal paste application guidelines.</p>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                <span class="flex items-center space-x-1">
+                                    <span class="material-icons text-sm">tools</span>
+                                    <span>2 tools</span>
+                                </span>
+                                <span class="flex items-center space-x-1">
+                                    <span class="material-icons text-sm">visibility</span>
+                                    <span>2.1k views</span>
+                                </span>
+                            </div>
+                            <button class="px-4 py-2 bg-primary-700 text-white text-sm rounded-lg hover:bg-primary-900 transition-colors">
+                                View Guide
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-material hover:shadow-material-lg transition-shadow">
+                    <!-- SSD and traditional hard drive comparison for storage upgrade decisions -->
+                    <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=300" 
+                         alt="SSD and hard drive storage devices" 
+                         class="w-full h-48 object-cover rounded-t-xl">
+                    
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="inline-block px-2 py-1 bg-danger-50 text-danger-700 text-xs font-medium rounded-full">HARD</span>
+                                <span class="inline-block px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">2-3 hours</span>
+                            </div>
+                            <button class="p-1 text-gray-400 hover:text-primary-700 transition-colors">
+                                <span class="material-icons text-sm">bookmark_border</span>
+                            </button>
+                        </div>
+
+                        <h3 class="font-medium text-gray-900 mb-2">SSD Installation & Data Migration</h3>
+                        <p class="text-sm text-gray-600 mb-4">Complete guide for replacing traditional drives with SSDs, including backup procedures and OS migration.</p>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                <span class="flex items-center space-x-1">
+                                    <span class="material-icons text-sm">tools</span>
+                                    <span>5 tools</span>
+                                </span>
+                                <span class="flex items-center space-x-1">
+                                    <span class="material-icons text-sm">visibility</span>
+                                    <span>945 views</span>
+                                </span>
+                            </div>
+                            <button class="px-4 py-2 bg-primary-700 text-white text-sm rounded-lg hover:bg-primary-900 transition-colors">
+                                View Guide
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- @END_MAP )) -->
+            </div>
+        </section>
+        <!-- @END_COMPONENT: RepairGuidesList -->
+
+        <!-- Troubleshooting Flowchart Section -->
+        <!-- @COMPONENT: TroubleshootingFlowchart [interactive decision tree] -->
+        <section class="mb-8">
+            <div class="bg-white rounded-xl shadow-material p-6">
+                <h2 class="text-lg font-medium text-gray-900 mb-4">Quick Troubleshooting</h2>
+                <p class="text-sm text-gray-600 mb-6">Start here if you're not sure what's wrong with your device</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <button class="p-4 border-2 border-gray-200 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors text-left"
+                            data-event="click:startTroubleshooting" data-type="power">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <span class="material-icons text-danger-500">power_off</span>
+                            <h3 class="font-medium">Device Won't Turn On</h3>
+                        </div>
+                        <p class="text-sm text-gray-600">Power issues, dead battery, charging problems</p>
+                    </button>
+
+                    <button class="p-4 border-2 border-gray-200 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors text-left"
+                            data-event="click:startTroubleshooting" data-type="performance">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <span class="material-icons text-warning-500">speed</span>
+                            <h3 class="font-medium">Slow Performance</h3>
+                        </div>
+                        <p class="text-sm text-gray-600">Freezing, overheating, software issues</p>
+                    </button>
+
+                    <button class="p-4 border-2 border-gray-200 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors text-left"
+                            data-event="click:startTroubleshooting" data-type="display">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <span class="material-icons text-primary-500">monitor</span>
+                            <h3 class="font-medium">Display Problems</h3>
+                        </div>
+                        <p class="text-sm text-gray-600">Screen flickering, no display, broken LCD</p>
+                    </button>
+                </div>
+            </div>
+        </section>
+        <!-- @END_COMPONENT: TroubleshootingFlowchart -->
+
+        <!-- Parts Identification Guide -->
+        <!-- @COMPONENT: PartsIdentificationGuide [visual component library] -->
+        <section class="mb-8">
+            <div class="bg-white rounded-xl shadow-material p-6">
+                <h2 class="text-lg font-medium text-gray-900 mb-4">Parts Identification Guide</h2>
+                <p class="text-sm text-gray-600 mb-6">Click on components to learn more about them</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="relative">
+                        <!-- Detailed internal view of a laptop showing motherboard, RAM slots, storage, and cooling components -->
+                        <img src="https://pixabay.com/get/g47f3243ed959354ccf54e02cc790eae822f47a5a3e5222dbc4d9becb7bacd50952bf4d9c647072182a34403929751facc95c030ab418c2af1194144c6770113f_1280.jpg" 
+                             alt="Laptop internal components layout" 
+                             class="w-full rounded-lg">
+                        
+                        <!-- Interactive hotspots -->
+                        <!-- @FUNCTIONALITY: These hotspots should be clickable and show component information -->
+                        <button class="absolute top-1/4 left-1/3 w-6 h-6 bg-primary-700 rounded-full border-4 border-white shadow-lg hover:scale-110 transition-transform"
+                                data-event="click:showComponentInfo" data-component="ram"
+                                title="RAM/Memory">
+                            <span class="sr-only">RAM Module</span>
+                        </button>
+                        <button class="absolute top-1/2 left-1/4 w-6 h-6 bg-primary-700 rounded-full border-4 border-white shadow-lg hover:scale-110 transition-transform"
+                                data-event="click:showComponentInfo" data-component="storage"
+                                title="Storage Drive">
+                            <span class="sr-only">Storage Drive</span>
+                        </button>
+                        <button class="absolute top-1/3 right-1/4 w-6 h-6 bg-primary-700 rounded-full border-4 border-white shadow-lg hover:scale-110 transition-transform"
+                                data-event="click:showComponentInfo" data-component="cooling"
+                                title="Cooling System">
+                            <span class="sr-only">Cooling Fan</span>
+                        </button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <h3 class="font-medium text-gray-900 mb-2">Common Components</h3>
+                            <div class="space-y-2">
+                                <div class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded cursor-pointer"
+                                     data-event="click:highlightComponent" data-component="motherboard">
+                                    <div class="w-3 h-3 bg-primary-700 rounded-full"></div>
+                                    <span class="text-sm">Motherboard</span>
+                                </div>
+                                <div class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded cursor-pointer"
+                                     data-event="click:highlightComponent" data-component="ram">
+                                    <div class="w-3 h-3 bg-success-600 rounded-full"></div>
+                                    <span class="text-sm">RAM/Memory</span>
+                                </div>
+                                <div class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded cursor-pointer"
+                                     data-event="click:highlightComponent" data-component="storage">
+                                    <div class="w-3 h-3 bg-warning-700 rounded-full"></div>
+                                    <span class="text-sm">Storage Drive</span>
+                                </div>
+                                <div class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded cursor-pointer"
+                                     data-event="click:highlightComponent" data-component="battery">
+                                    <div class="w-3 h-3 bg-purple-600 rounded-full"></div>
+                                    <span class="text-sm">Battery</span>
+                                </div>
+                                <div class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded cursor-pointer"
+                                     data-event="click:highlightComponent" data-component="cooling">
+                                    <div class="w-3 h-3 bg-cyan-600 rounded-full"></div>
+                                    <span class="text-sm">Cooling System</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <div class="flex items-start space-x-3">
+                                <span class="material-icons text-primary-700 text-lg mt-0.5">info</span>
+                                <div>
+                                    <h4 class="font-medium text-primary-900 mb-1">Pro Tip</h4>
+                                    <p class="text-sm text-primary-800">Always power down and disconnect the battery before working on internal components.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- @END_COMPONENT: PartsIdentificationGuide -->
+
+    </main>
+    <!-- @END_COMPONENT: MainContent -->
+
+    <!-- @COMPONENT: FloatingActionButton [quick access menu] -->
+    <div class="fixed bottom-6 right-6 z-40">
+        <!-- @STATE: isExpanded:boolean = false -->
+        <div class="relative">
+            <!-- Quick access menu (hidden by default) -->
+            <div class="absolute bottom-16 right-0 space-y-2 opacity-0 pointer-events-none transition-all duration-200"
+                 id="fab-menu" data-state="collapsed">
+                <button class="flex items-center space-x-3 bg-white shadow-material rounded-full px-4 py-3 hover:shadow-material-lg transition-shadow"
+                        data-event="click:quickAction" data-action="emergency">
+                    <span class="material-icons text-danger-500">emergency</span>
+                    <span class="text-sm font-medium text-gray-700 whitespace-nowrap">Emergency Shutdown</span>
+                </button>
+                <button class="flex items-center space-x-3 bg-white shadow-material rounded-full px-4 py-3 hover:shadow-material-lg transition-shadow"
+                        data-event="click:quickAction" data-action="tools">
+                    <span class="material-icons text-primary-700">construction</span>
+                    <span class="text-sm font-medium text-gray-700 whitespace-nowrap">Tool Checklist</span>
+                </button>
+                <button class="flex items-center space-x-3 bg-white shadow-material rounded-full px-4 py-3 hover:shadow-material-lg transition-shadow"
+                        data-event="click:quickAction" data-action="safety">
+                    <span class="material-icons text-warning-700">security</span>
+                    <span class="text-sm font-medium text-gray-700 whitespace-nowrap">Safety Guide</span>
+                </button>
+            </div>
+            
+            <!-- Main FAB -->
+            <button class="w-14 h-14 bg-primary-700 text-white rounded-full shadow-material-lg hover:bg-primary-900 hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+                    data-event="click:toggleFABMenu">
+                <span class="material-icons text-2xl">help</span>
+            </button>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: FloatingActionButton -->
+
+    <!-- @COMPONENT: DetailedRepairGuide [step-by-step modal/overlay] -->
+    <!-- This would be shown when clicking "View Guide" buttons -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden"
+         id="repair-guide-modal" data-state="hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-xl shadow-material-lg max-w-4xl w-full max-h-screen overflow-y-auto">
+                <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 rounded-t-xl">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-xl font-medium text-gray-900" data-bind="guide.title">Laptop RAM Upgrade Installation</h2>
+                        <button class="p-2 text-gray-400 hover:text-gray-600 rounded-lg"
+                                data-event="click:closeModal">
+                            <span class="material-icons">close</span>
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-4 mt-2">
+                        <span class="inline-block px-2 py-1 bg-success-50 text-success-600 text-xs font-medium rounded-full">EASY</span>
+                        <span class="inline-block px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">30-45 min</span>
+                        <span class="text-sm text-gray-500">Updated 2 days ago</span>
+                    </div>
+                </div>
+
+                <div class="p-6">
+                    <!-- Safety Warning -->
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                        <div class="flex items-start space-x-3">
+                            <span class="material-icons text-yellow-600 text-lg mt-0.5">warning</span>
+                            <div>
+                                <h3 class="font-medium text-yellow-800 mb-1">Safety Precautions</h3>
+                                <ul class="text-sm text-yellow-700 space-y-1">
+                                    <li>• Power down completely and remove battery</li>
+                                    <li>• Ground yourself to prevent static discharge</li>
+                                    <li>• Work in a clean, well-lit environment</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Required Tools -->
+                    <div class="mb-6">
+                        <h3 class="font-medium text-gray-900 mb-3">Required Tools</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                <span class="material-icons text-gray-600">construction</span>
+                                <span class="text-sm">Phillips screwdriver</span>
+                            </div>
+                            <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                <span class="material-icons text-gray-600">settings</span>
+                                <span class="text-sm">Anti-static wrist strap</span>
+                            </div>
+                            <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                <span class="material-icons text-gray-600">memory</span>
+                                <span class="text-sm">Compatible RAM module</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step-by-step Instructions -->
+                    <div class="space-y-6">
+                        <h3 class="font-medium text-gray-900">Installation Steps</h3>
+                        
+                        <!-- @MAP: guide.steps.map((step, index) => ( -->
+                        <div class="flex space-x-4">
+                            <div class="flex-shrink-0 w-8 h-8 bg-primary-700 text-white rounded-full flex items-center justify-center text-sm font-medium">1</div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-gray-900 mb-2">Power Down and Prepare</h4>
+                                <p class="text-sm text-gray-600 mb-3">Shut down your laptop completely. Disconnect the power adapter and remove the battery if it's removable.</p>
+                                <!-- Close-up of hands removing a laptop battery safely -->
+                                <img src="https://images.unsplash.com/photo-1625842268584-8f3296236761?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=300" 
+                                     alt="Removing laptop battery" 
+                                     class="rounded-lg shadow-sm w-full max-w-md">
+                            </div>
+                        </div>
+
+                        <div class="flex space-x-4">
+                            <div class="flex-shrink-0 w-8 h-8 bg-primary-700 text-white rounded-full flex items-center justify-center text-sm font-medium">2</div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-gray-900 mb-2">Locate RAM Access Panel</h4>
+                                <p class="text-sm text-gray-600 mb-3">Find the RAM access panel on the bottom of your laptop. It's usually marked with a memory symbol or "RAM".</p>
+                                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                                    <p class="text-sm text-blue-800"><strong>Note:</strong> Some laptops require removing the entire bottom panel.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex space-x-4">
+                            <div class="flex-shrink-0 w-8 h-8 bg-primary-700 text-white rounded-full flex items-center justify-center text-sm font-medium">3</div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-gray-900 mb-2">Install the New RAM</h4>
+                                <p class="text-sm text-gray-600 mb-3">Insert the RAM module at a 45-degree angle, then press down until the clips snap into place.</p>
+                                <!-- Hands installing RAM module into laptop memory slot -->
+                                <img src="https://pixabay.com/get/g1e9ddf595ce19c90731fefde83d08c55664369e3f40aec7dec9ddc2b8d0d77809c09946e31514ba291e6a2a14531f45e3d2eca09a9019ff491ceaed45a3307f0_1280.jpg" 
+                                     alt="Installing RAM into laptop" 
+                                     class="rounded-lg shadow-sm w-full max-w-md">
+                            </div>
+                        </div>
+                        <!-- @END_MAP )) -->
+
+                        <!-- Alternative Solutions -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-900 mb-2">Alternative Solutions</h4>
+                            <p class="text-sm text-gray-600">If your laptop doesn't have accessible RAM slots, consider external solutions like faster storage or cloud-based workflows to improve performance.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: DetailedRepairGuide -->
+
+    <script>
+    (function() {
+        // TODO: Implement business logic, API calls, and state management
+        
+        // Simple interactions for demo purposes
+        let isModalOpen = false;
+        let isFABExpanded = false;
+
+        // Modal functionality
+        const modal = document.getElementById('repair-guide-modal');
+        const closeModalButtons = document.querySelectorAll('[data-event="click:closeModal"]');
+        const viewGuideButtons = document.querySelectorAll('[data-event="click:viewGuide"]');
+
+        viewGuideButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                modal.classList.remove('hidden');
+                isModalOpen = true;
+            });
+        });
+
+        closeModalButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                modal.classList.add('hidden');
+                isModalOpen = false;
+            });
+        });
+
+        // Close modal on background click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+                isModalOpen = false;
+            }
+        });
+
+        // FAB functionality
+        const fabButton = document.querySelector('[data-event="click:toggleFABMenu"]');
+        const fabMenu = document.getElementById('fab-menu');
+
+        if (fabButton && fabMenu) {
+            fabButton.addEventListener('click', () => {
+                isFABExpanded = !isFABExpanded;
+                if (isFABExpanded) {
+                    fabMenu.classList.remove('opacity-0', 'pointer-events-none');
+                    fabMenu.classList.add('opacity-100');
+                } else {
+                    fabMenu.classList.add('opacity-0', 'pointer-events-none');
+                    fabMenu.classList.remove('opacity-100');
+                }
+            });
+        }
+
+        // Print functionality
+        const printButton = document.querySelector('[data-event="click:printPage"]');
+        if (printButton) {
+            printButton.addEventListener('click', () => {
+                window.print();
+            });
+        }
+
+        // Search functionality placeholder
+        const searchInput = document.querySelector('[data-bind="searchQuery"]');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                // TODO: Implement search functionality
+                console.log('Search query:', e.target.value);
+            });
+        }
+    })();
+    </script>
+
+    <!-- Print Styles -->
+    <style media="print">
+        .no-print { display: none !important; }
+        .shadow-material, .shadow-material-lg { box-shadow: none !important; }
+        .bg-primary-700 { background-color: #1976D2 !important; color: white !important; }
+        .text-primary-700 { color: #1976D2 !important; }
+    </style>
+</body>
+</html>

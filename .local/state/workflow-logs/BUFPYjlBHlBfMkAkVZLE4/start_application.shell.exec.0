@@ -1,0 +1,24 @@
+[1G[0K⠙[1G[0K
+> rest-express@1.0.0 dev
+> NODE_ENV=development tsx server/index.ts
+
+[1G[0K⠙[1G[0KSeeding repair guides...
+2:41:38 PM [express] serving on port 5000
+Seeding troubleshooting flows...
+Seeding device components...
+Database seeding completed successfully!
+Browserslist: browsers data (caniuse-lite) is 21 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+2:43:01 PM [express] GET /api/auth/user 401 in 2ms :: {"message":"Unauthorized"}
+2:43:01 PM [express] GET /api/version 200 in 1ms :: {"version":"1.0.0","name":"JCR Guide Pro","build…
+2:43:02 PM [express] GET /api/auth/user 401 in 1ms :: {"message":"Unauthorized"}
+2:43:02 PM [express] GET /api/version 200 in 1ms :: {"version":"1.0.0","name":"JCR Guide Pro","build…
+2:43:42 PM [express] GET /api/version 304 in 1ms :: {"version":"1.0.0","name":"JCR Guide Pro","build…
+2:43:42 PM [express] GET /api/auth/user 401 in 1ms :: {"message":"Unauthorized"}
+[36;1mexpress[22;39m [33;1mdeprecated[22;39m [0mreq.host: Use req.hostname instead[39m [36mfile:/home/runner/workspace/node_modules/openid-client/build/passport.js:224:49[39m
+2:43:59 PM [express] GET /api/login 302 in 835ms
+2:43:59 PM [express] GET /api/login 302 in 104ms
+2:45:22 PM [express] GET /api/callback 302 in 1023ms
+2:45:44 PM [express] GET /api/auth/user 401 in 41ms :: {"message":"Unauthorized"}
+2:45:44 PM [express] GET /api/version 304 in 43ms :: {"version":"1.0.0","name":"JCR Guide Pro","buil…

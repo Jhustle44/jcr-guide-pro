@@ -1,0 +1,143 @@
+mutation CreateCategory @auth(level: USER) {
+  category_insert(data: { name: "Tools" })
+}
+
+mutation UpsertCategory($id: UUID!) @auth(level: USER) {
+  category_upsert(data: { id: $id, name: "Tools" })
+}
+
+mutation DeleteCategory($id: UUID!) @auth(level: USER) {
+  category_delete(key: { id: $id })
+}
+
+mutation UpdateCategory($id: UUID!, $name: String!) @auth(level: USER) {
+  category_update(key: { id: $id }, data: { name: $name })
+}
+
+query GetCategory($id: UUID!) @auth(level: USER) {
+  category(id: $id) { name }
+}
+
+query ListCategories @auth(level: USER) {
+  categories { name }
+}
+
+mutation CreateDevice @auth(level: USER) {
+  device_insert(data: { manufacturer: "ACME", modelName: "Drill-X" })
+}
+
+mutation UpsertDevice($id: UUID!) @auth(level: USER) {
+  device_upsert(data: { id: $id, manufacturer: "ACME", modelName: "Drill-X" })
+}
+
+mutation DeleteDevice($id: UUID!) @auth(level: USER) {
+  device_delete(key: { id: $id })
+}
+
+mutation UpdateDevice($id: UUID!, $modelName: String!) @auth(level: USER) {
+  device_update(key: { id: $id }, data: { modelName: $modelName })
+}
+
+query GetDevice($id: UUID!) @auth(level: USER) {
+  device(id: $id) { modelName }
+}
+
+query ListDevices @auth(level: USER) {
+  devices { modelName }
+}
+
+mutation CreateGuide($title: String!, $difficulty: String!, $time: Int!) @auth(level: PUBLIC, insecureReason: "Guides are public knowledge.") {
+  guide_insert(data: { title: $title, difficultyLevel: $difficulty, estimatedTimeMinutes: $time })
+}
+
+mutation UpsertGuide($id: UUID!, $title: String!, $difficulty: String!, $time: Int!) @auth(level: PUBLIC, insecureReason: "Guides are public knowledge.") {
+  guide_upsert(data: { id: $id, title: $title, difficultyLevel: $difficulty, estimatedTimeMinutes: $time })
+}
+
+mutation DeleteGuide($id: UUID!) @auth(level: PUBLIC, insecureReason: "Publicly maintained guides.") {
+  guide_delete(key: { id: $id })
+}
+
+mutation UpdateGuide($id: UUID!, $time: Int!) @auth(level: PUBLIC, insecureReason: "Guides are public knowledge.") {
+  guide_update(key: { id: $id }, data: { estimatedTimeMinutes: $time })
+}
+
+query GetGuide($id: UUID!) @auth(level: PUBLIC, insecureReason: "Guides are public knowledge.") {
+  guide(id: $id) { title }
+}
+
+query ListGuides @auth(level: PUBLIC, insecureReason: "Guides are public knowledge.") {
+  guides { title }
+}
+
+mutation CreatePart($name: String!, $type: String!, $devId: UUID!) @auth(level: USER) {
+  part_insert(data: { partName: $name, partType: $type, deviceId: $devId })
+}
+
+mutation UpsertPart($id: UUID!, $name: String!, $type: String!, $devId: UUID!) @auth(level: USER) {
+  part_upsert(data: { id: $id, partName: $name, partType: $type, deviceId: $devId })
+}
+
+mutation DeletePart($id: UUID!) @auth(level: USER) {
+  part_delete(key: { id: $id })
+}
+
+mutation UpdatePart($id: UUID!, $notes: String!) @auth(level: USER) {
+  part_update(key: { id: $id }, data: { compatibilityNotes: $notes })
+}
+
+query GetPart($id: UUID!) @auth(level: USER) {
+  part(id: $id) { partName }
+}
+
+query ListParts @auth(level: USER) {
+  parts { partName }
+}
+
+mutation CreateStep($order: Int!, $text: String!, $guideId: UUID!) @auth(level: USER) {
+  step_insert(data: { sequenceOrder: $order, instructionText: $text, guideId: $guideId })
+}
+
+mutation UpsertStep($id: UUID!, $order: Int!, $text: String!, $guideId: UUID!) @auth(level: USER) {
+  step_upsert(data: { id: $id, sequenceOrder: $order, instructionText: $text, guideId: $guideId })
+}
+
+mutation DeleteStep($id: UUID!) @auth(level: USER) {
+  step_delete(key: { id: $id })
+}
+
+mutation UpdateStep($id: UUID!, $text: String!) @auth(level: USER) {
+  step_update(key: { id: $id }, data: { instructionText: $text })
+}
+
+query GetStep($id: UUID!) @auth(level: USER) {
+  step(id: $id) { instructionText }
+}
+
+query ListSteps @auth(level: USER) {
+  steps { instructionText }
+}
+
+mutation CreateBookmark($guideId: UUID!) @auth(level: USER) {
+  userBookmark_insert(data: { userId_expr: "auth.uid", guideId: $guideId })
+}
+
+mutation UpsertBookmark($id: UUID!, $guideId: UUID!) @auth(level: USER) {
+  userBookmark_upsert(data: { id: $id, userId_expr: "auth.uid", guideId: $guideId })
+}
+
+mutation DeleteBookmark($id: UUID!) @auth(level: USER) {
+  userBookmark_delete(key: { id: $id })
+}
+
+mutation UpdateBookmark($id: UUID!, $guideId: UUID!) @auth(level: USER) {
+  userBookmark_update(key: { id: $id }, data: { guideId: $guideId })
+}
+
+query GetMyBookmarks @auth(level: USER) {
+  userBookmarks(where: { userId: { eq_expr: "auth.uid" } }) { guide { title } }
+}
+
+query GetBookmark($id: UUID!) @auth(level: USER) {
+  userBookmark(key: { id: $id }) { userId }
+}

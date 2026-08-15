@@ -1,0 +1,27 @@
+mutation SeedDatabase @transaction {
+  category_insertMany(data: [
+    { id: "00000000-0000-0000-0000-000000000001", name: "Electronics", iconUrl: "https://example.com/icons/elec.png" },
+    { id: "00000000-0000-0000-0000-000000000002", name: "Appliances", iconUrl: "https://example.com/icons/app.png" }
+  ])
+  device_insertMany(data: [
+    { id: "10000000-0000-0000-0000-000000000001", manufacturer: "TechCo", modelName: "SmartPhone X", releaseYear: 2023 },
+    { id: "10000000-0000-0000-0000-000000000002", manufacturer: "HomeCorp", modelName: "Fridge Y", releaseYear: 2022 }
+  ])
+  guide_insertMany(data: [
+    { id: "20000000-0000-0000-0000-000000000001", title: "Battery Replacement", difficultyLevel: "Medium", estimatedTimeMinutes: 30, categoryId: "00000000-0000-0000-0000-000000000001", deviceId: "10000000-0000-0000-0000-000000000001" },
+    { id: "20000000-0000-0000-0000-000000000002", title: "Filter Cleaning", difficultyLevel: "Easy", estimatedTimeMinutes: 15, categoryId: "00000000-0000-0000-0000-000000000002", deviceId: "10000000-0000-0000-0000-000000000002" }
+  ])
+  part_insertMany(data: [
+    { id: "30000000-0000-0000-0000-000000000001", partName: "Battery Pack", partType: "Internal", deviceId: "10000000-0000-0000-0000-000000000001" },
+    { id: "30000000-0000-0000-0000-000000000002", partName: "Water Filter", partType: "Consumable", deviceId: "10000000-0000-0000-0000-000000000002" }
+  ])
+  step_insertMany(data: [
+    { id: "40000000-0000-0000-0000-000000000001", sequenceOrder: 1, instructionText: "Power off the device.", guideId: "20000000-0000-0000-0000-000000000001" },
+    { id: "40000000-0000-0000-0000-000000000002", sequenceOrder: 2, instructionText: "Remove the back cover.", guideId: "20000000-0000-0000-0000-000000000001" },
+    { id: "40000000-0000-0000-0000-000000000003", sequenceOrder: 1, instructionText: "Open the filter door.", guideId: "20000000-0000-0000-0000-000000000002" }
+  ])
+  userBookmark_insertMany(data: [
+    { id: "50000000-0000-0000-0000-000000000001", userId: "user-1", guideId: "20000000-0000-0000-0000-000000000001" },
+    { id: "50000000-0000-0000-0000-000000000002", userId: "user-1", guideId: "20000000-0000-0000-0000-000000000002" }
+  ])
+}
