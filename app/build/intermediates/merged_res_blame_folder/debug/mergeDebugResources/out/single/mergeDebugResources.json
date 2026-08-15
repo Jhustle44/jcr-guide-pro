@@ -1,0 +1,54 @@
+[
+    {
+        "merged": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-debug-21:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-main-23:\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-debug-21:\\layout_activity_main.xml.flat",
+        "source": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-main-23:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-debug-21:\\xml_file_paths.xml.flat",
+        "source": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-main-23:\\xml\\file_paths.xml"
+    },
+    {
+        "merged": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-debug-21:\\mipmap_ic_launcher.xml.flat",
+        "source": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-main-23:\\mipmap\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-debug-21:\\drawable_progress_bar_blue.xml.flat",
+        "source": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-main-23:\\drawable\\progress_bar_blue.xml"
+    },
+    {
+        "merged": "com.jcrguidepro.app-debug-21:/drawable_app_logo.jpg.flat",
+        "source": "com.jcrguidepro.app-main-23:/drawable/app_logo.jpg"
+    },
+    {
+        "merged": "com.jcrguidepro.app-debug-21:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.jcrguidepro.app-main-23:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-debug-21:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-main-23:\\drawable\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-debug-21:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-main-23:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-debug-21:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-main-23:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-debug-21:\\drawable_app_icon.png.flat",
+        "source": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-main-23:\\drawable\\app_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-debug-21:\\layout_activity_webview.xml.flat",
+        "source": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-main-23:\\layout\\activity_webview.xml"
+    },
+    {
+        "merged": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-debug-21:\\mipmap_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\jhust\\.gradle\\daemon\\9.5.0\\com.jcrguidepro.app-main-23:\\mipmap\\ic_launcher_round.xml"
+    }
+]

@@ -1,0 +1,18 @@
+com.jcrguidepro.app
+color colorAccent
+color colorPrimary
+color colorPrimaryDark
+color windowBackground
+drawable app_logo
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+drawable progress_bar_blue
+id progressBar
+id webview
+layout activity_main
+layout activity_webview
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+style AppTheme
+xml file_paths

@@ -1,0 +1,88 @@
+====================================================
+  JCR Guide Pro — Android APK Build Instructions
+====================================================
+
+STEP 1: Deploy your app first
+-------------------------------
+Your app must be live at a public HTTPS URL before building the APK.
+Deploy it using the "Deploy" button in Replit.
+Your URL will look like: https://your-app-name.replit.app
+
+------------------------------------------------------
+OPTION A: EASIEST — Use PWABuilder (no coding needed)
+------------------------------------------------------
+1. Deploy your app (Step 1 above)
+2. Go to https://www.pwabuilder.com
+3. Enter your deployed URL (e.g. https://your-app.replit.app)
+4. Click "Start" → select "Android" → click "Generate"
+5. Download the APK package
+6. Install on your phone or submit to Google Play
+
+That's it — no Android Studio needed!
+
+------------------------------------------------------
+OPTION B: Build with Android Studio (full control)
+------------------------------------------------------
+Requirements: Android Studio + Java JDK 17+
+
+1. Open Android Studio → "Open an Existing Project"
+2. Select this "android-apk" folder
+3. Find every "YOUR_DOMAIN" in these files and replace with your deployed URL:
+   - app/src/main/AndroidManifest.xml
+   - app/src/main/java/com/jcrguidepro/app/MainActivity.java
+   - twa-manifest.json
+   Example: replace "YOUR_DOMAIN" with "your-app.replit.app"
+
+4. Build the APK:
+   - In Android Studio: Build → Build Bundle(s)/APK(s) → Build APK(s)
+   - Or in terminal: ./gradlew assembleDebug
+   - APK will be at: app/build/outputs/apk/debug/app-debug.apk
+
+5. Install on your Android phone:
+   - Enable "Install from Unknown Sources" in phone Settings
+   - Transfer the APK to your phone and open it
+
+------------------------------------------------------
+OPTION C: Use Bubblewrap CLI (Google's official tool)
+------------------------------------------------------
+Requirements: Node.js 14+, Java JDK 8+
+
+1. Install Bubblewrap:
+   npm install -g @bubblewrap/cli
+
+2. Initialize (in this folder):
+   bubblewrap init --manifest=https://YOUR_DOMAIN/manifest.json
+
+3. Build the APK:
+   bubblewrap build
+
+------------------------------------------------------
+STEP 2: Set up Digital Asset Links (for TWA to work properly)
+------------------------------------------------------
+After building your APK, you need to link it to your domain:
+
+1. Get your APK's SHA-256 fingerprint:
+   keytool -list -v -keystore android.keystore -alias jcr-guide-pro
+
+2. Open your Replit project → server/routes.ts
+3. Find the /.well-known/assetlinks.json route
+4. Replace 'YOUR_SHA256_FINGERPRINT_HERE' with your actual fingerprint
+
+Without this step the app will still work but will show a browser toolbar instead of being truly fullscreen.
+
+------------------------------------------------------
+Google Play Store Submission
+------------------------------------------------------
+1. Create a Google Play Developer account ($25 one-time fee)
+2. Build a signed release APK or AAB:
+   ./gradlew bundleRelease
+3. Follow Google Play Console instructions to publish
+
+======================================================
+App Details
+======================================================
+Package ID:    com.jcrguidepro.app
+App Name:      JCR Guide Pro
+Min Android:   5.0 (API 21)
+Target:        Android 14 (API 34)
+======================================================

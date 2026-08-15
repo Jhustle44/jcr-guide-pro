@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents format="6" by="lint 9.3.1" type="partial_results">
+    <map id="UnsafeIntentLaunch">
+            <map id="unprotected">
+                <entry
+                    name="com.google.androidbrowserhelper.trusted.DelegationService"
+                    boolean="true"/>
+                <entry
+                    name="com.google.androidbrowserhelper.trusted.FocusActivity"
+                    boolean="true"/>
+                <entry
+                    name="com.jcrguru.MainActivity"
+                    boolean="true"/>
+            </map>
+    </map>
+    <map id="UnusedResources">
+        <location id="R.color.colorAccent"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/colors.xml"
+            line="5"
+            column="12"
+            startOffset="164"
+            endLine="5"
+            endColumn="30"
+            endOffset="182"/>
+        <location id="R.color.colorPrimaryDark"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/colors.xml"
+            line="4"
+            column="12"
+            startOffset="112"
+            endLine="4"
+            endColumn="35"
+            endOffset="135"/>
+        <location id="R.layout.activity_main"
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_main.xml"
+            line="2"
+            column="1"
+            startOffset="40"
+            endLine="13"
+            endColumn="15"
+            endOffset="429"/>
+        <entry
+            name="model"
+            string="color[colorPrimary(U),windowBackground(U),colorPrimaryDark(D),colorAccent(D)],drawable[ic_launcher_background(U),ic_launcher_foreground(U)],layout[activity_main(D)],mipmap[ic_launcher(U),ic_launcher_round(U)],string[app_name(U)],style[AppTheme(U),Theme_AppCompat_NoActionBar(R)],xml[file_paths(U)];6^7,7^4^5,8^4^5,a^b;;;"/>
+    </map>
+
+</incidents>

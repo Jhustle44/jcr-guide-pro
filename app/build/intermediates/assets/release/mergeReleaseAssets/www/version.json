@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "name": "JCR Guide Pro",
+  "build": "2025.08.18",
+  "features": [
+    "Comprehensive repair guides for laptops and PCs",
+    "Interactive troubleshooting workflows",
+    "Parts identification tools",
+    "Device compatibility finder",
+    "User-generated guide creation",
+    "Offline mode with 50MB storage",
+    "Dark/Light/AMOLED themes",
+    "Download guides with multiple formats",
+    "View and download tracking",
+    "Progressive Web App (PWA) support",
+    "Replit authentication",
+    "Mobile-responsive design"
+  ],
+  "changelog": {
+    "1.0.0": {
+      "date": "2025-08-18",
+      "changes": [
+        "Initial major release",
+        "Complete PWA implementation with standalone APK capability",
+        "Full authentication system with Replit integration", 
+        "Comprehensive repair guide database with 25+ guides",
+        "Advanced offline storage with 50MB capacity",
+        "View and download tracking system",
+        "Mobile-responsive design with dark mode support",
+        "Interactive troubleshooting workflows",
+        "Device compatibility and parts identification",
+        "User guide creation and community features"
+      ]
+    }
+  }
+}

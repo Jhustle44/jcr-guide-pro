@@ -1,0 +1,9 @@
+<svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+  <rect width="192" height="192" fill="#1f2937" rx="32"/>
+  <g transform="translate(48, 48)">
+    <path d="M72 24L72 48L96 48L96 72L72 72L72 96L48 96L48 72L24 72L24 48L48 48L48 24L72 24Z" fill="#ffffff"/>
+    <circle cx="48" cy="48" r="8" fill="#1f2937"/>
+  </g>
+  <text x="96" y="120" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="16" font-weight="bold">JCR</text>
+  <text x="96" y="140" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="12">Guide Pro</text>
+</svg>

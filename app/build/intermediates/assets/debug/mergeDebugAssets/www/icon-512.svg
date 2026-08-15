@@ -1,0 +1,9 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" fill="#1f2937" rx="64"/>
+  <g transform="translate(128, 128)">
+    <path d="M192 64L192 128L256 128L256 192L192 192L192 256L128 256L128 192L64 192L64 128L128 128L128 64L192 64Z" fill="#ffffff"/>
+    <circle cx="128" cy="128" r="20" fill="#1f2937"/>
+  </g>
+  <text x="256" y="320" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="48" font-weight="bold">JCR</text>
+  <text x="256" y="380" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="32">Guide Pro</text>
+</svg>

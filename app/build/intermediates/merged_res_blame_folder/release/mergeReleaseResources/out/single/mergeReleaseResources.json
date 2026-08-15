@@ -1,0 +1,46 @@
+[
+    {
+        "merged": "com.jcrguidepro.app-release-22:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.jcrguidepro.app-main-23:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.jcrguidepro.app-release-22:/layout_activity_webview.xml.flat",
+        "source": "com.jcrguidepro.app-main-23:/layout/activity_webview.xml"
+    },
+    {
+        "merged": "com.jcrguidepro.app-release-22:/mipmap_ic_launcher_round.xml.flat",
+        "source": "com.jcrguidepro.app-main-23:/mipmap/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.jcrguidepro.app-release-22:/layout_activity_main.xml.flat",
+        "source": "com.jcrguidepro.app-main-23:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.jcrguidepro.app-release-22:/mipmap_ic_launcher.xml.flat",
+        "source": "com.jcrguidepro.app-main-23:/mipmap/ic_launcher.xml"
+    },
+    {
+        "merged": "com.jcrguidepro.app-release-22:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.jcrguidepro.app-main-23:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.jcrguidepro.app-release-22:/drawable_progress_bar_blue.xml.flat",
+        "source": "com.jcrguidepro.app-main-23:/drawable/progress_bar_blue.xml"
+    },
+    {
+        "merged": "com.jcrguidepro.app-release-22:/xml_file_paths.xml.flat",
+        "source": "com.jcrguidepro.app-main-23:/xml/file_paths.xml"
+    },
+    {
+        "merged": "com.jcrguidepro.app-release-22:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.jcrguidepro.app-main-23:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.jcrguidepro.app-release-22:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.jcrguidepro.app-main-23:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.jcrguidepro.app-release-22:/drawable_app_logo.jpg.flat",
+        "source": "com.jcrguidepro.app-main-23:/drawable/app_logo.jpg"
+    }
+]

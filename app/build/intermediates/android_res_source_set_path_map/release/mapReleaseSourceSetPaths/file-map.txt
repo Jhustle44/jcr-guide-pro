@@ -1,0 +1,9 @@
+com.jcrguidepro.app-pngs-0 C:\Users\jhust\Documents\jcr-guide-pro-source\android\app\build\generated\res\pngs\release
+com.jcrguidepro.app-updated_navigation_xml-1 C:\Users\jhust\Documents\jcr-guide-pro-source\android\app\build\generated\updated_navigation_xml\release
+com.jcrguidepro.app-packageReleaseResources-2 C:\Users\jhust\Documents\jcr-guide-pro-source\android\app\build\intermediates\incremental\release\packageReleaseResources\merged.dir
+com.jcrguidepro.app-packageReleaseResources-3 C:\Users\jhust\Documents\jcr-guide-pro-source\android\app\build\intermediates\incremental\release\packageReleaseResources\stripped.dir
+com.jcrguidepro.app-merged-not-compiled-resources-4 C:\Users\jhust\Documents\jcr-guide-pro-source\android\app\build\intermediates\merged-not-compiled-resources\release
+com.jcrguidepro.app-release-5 C:\Users\jhust\Documents\jcr-guide-pro-source\android\app\build\intermediates\merged_res\release\mergeReleaseResources
+com.jcrguidepro.app-main-6 C:\Users\jhust\Documents\jcr-guide-pro-source\android\app\src\main\res
+com.jcrguidepro.app-release-7 C:\Users\jhust\Documents\jcr-guide-pro-source\android\app\src\release\res
+gradleHome-0 C:\Users\jhust\.gradle

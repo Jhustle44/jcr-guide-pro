@@ -1,0 +1,84 @@
+plugins {
+    id 'com.android.application'
+}
+
+def keystorePropertiesFile = rootProject.file('local.properties')
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+android {
+    compileSdk 34
+    namespace "com.jcrguidepro.app"
+
+    defaultConfig {
+        applicationId "com.jcrguidepro.app"
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName "1.0.0"
+    }
+
+    signingConfigs {
+        release {
+            if (keystoreProperties.containsKey('release.keystore')) {
+                storeFile file(keystoreProperties['release.keystore'])
+                storePassword keystoreProperties['release.keystore.password']
+                keyAlias keystoreProperties['release.key.alias']
+                keyPassword keystoreProperties['release.key.password']
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (keystoreProperties.containsKey('release.keystore')) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    lint {
+        disable "BidiSpoofing"
+    }
+}
+
+// Automatically copy web assets into the Android project and fix paths
+tasks.register('copyWebAssets', Copy) {
+    from "../../dist/public"
+    into "src/main/assets/www"
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
+    // Fix absolute paths in index.html to be relative and remove Replit banner
+    filter { line ->
+        line.replaceAll('src="/assets/', 'src="./assets/')
+            .replaceAll('href="/assets/', 'href="./assets/')
+            .replaceAll('src="/manifest.json"', 'src="./manifest.json"')
+            .replaceAll('href="/manifest.json"', 'href="./manifest.json"')
+            .replaceAll('href="/icon-', 'href="./icon-')
+            .replaceAll('src="/icon-', 'src="./icon-')
+            .replaceAll('<script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>', '')
+    }
+}
+
+// Make sure assets are copied before building the APK
+preBuild.dependsOn copyWebAssets
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.webkit:webkit:1.11.0'
+}
