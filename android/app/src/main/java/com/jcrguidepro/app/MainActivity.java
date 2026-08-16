@@ -2,14 +2,13 @@ package com.jcrguidepro.app;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -18,15 +17,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.webkit.WebViewAssetLoader;
 
 public class MainActivity extends AppCompatActivity {
 
     private WebView webView;
     private ProgressBar progressBar;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private WebViewAssetLoader assetLoader;
 
-    // Production hosted URL or local assets fallback
-    private static final String APP_URL = "https://ais-pre-ogmb2ectas2ozi5lkeh72n-662334793140.us-west2.run.app";
+    // The virtual secure domain for local asset serving
+    private static final String LOCAL_URL = "https://appassets.androidplatform.net/assets/index.html";
 
     @Override
     @SuppressLint("SetJavaScriptEnabled")
@@ -38,7 +39,12 @@ public class MainActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_bar);
         swipeRefreshLayout = findViewById(R.id.swipe_refresh);
 
-        // Configure High Performance WebSettings
+        // Professional Asset Loader for local hybrid files
+        assetLoader = new WebViewAssetLoader.Builder()
+                .addPathHandler("/assets/", new WebViewAssetLoader.AssetsPathHandler(this))
+                .build();
+
+        // High-Performance WebSettings
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
@@ -47,12 +53,13 @@ public class MainActivity extends AppCompatActivity {
         settings.setAllowContentAccess(true);
         settings.setLoadWithOverviewMode(true);
         settings.setUseWideViewPort(true);
-        settings.setBuiltInZoomControls(false);
-        settings.setDisplayZoomControls(false);
         settings.setMediaPlaybackRequiresUserGesture(false);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
-        // Chrome client for progress handling
+        // Enable Remote Debugging for Chrome DevTools
+        WebView.setWebContentsDebuggingEnabled(true);
+
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
@@ -66,40 +73,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // WebViewClient to handle in-app routing
         webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                // Intercept and serve local files from assets folder via virtual domain
+                return assetLoader.shouldInterceptRequest(request.getUrl());
+            }
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 Uri uri = request.getUrl();
-                String host = uri.getHost();
+                String url = uri.toString();
 
-                // Open external links (like datasheet PDFs or external links) in device browser
-                if (host != null && !host.contains("run.app") && !host.contains("localhost")) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    startActivity(intent);
-                    return true;
+                // Keep local navigation inside WebView
+                if (url.contains("androidplatform.net")) {
+                    return false;
                 }
-                return false;
+
+                // Open external links in system browser
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+                return true;
             }
 
             @Override
-            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+            public void onReceivedError(WebView view, WebResourceRequest request, android.webkit.WebResourceError error) {
                 if (request.isForMainFrame()) {
-                    Toast.makeText(MainActivity.this, "Offline Bench Mode: Loading cached repair guides...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Network Error: Loading Local Shell...", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        // Pull to refresh support
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                webView.reload();
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(() -> webView.reload());
 
-        // Load the JCR Guide Pro App
-        webView.loadUrl(APP_URL);
+        // Initial Load
+        webView.loadUrl(LOCAL_URL);
     }
 
     @Override

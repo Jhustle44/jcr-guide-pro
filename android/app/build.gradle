@@ -8,15 +8,16 @@ android {
         applicationId "com.jcrguidepro.app"
         minSdk 24
         targetSdk 34
-        versionCode 1
-        versionName "1.0.0"
+        versionCode 5
+        versionName "1.4.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -27,10 +28,36 @@ android {
     }
 }
 
+// Technical Task: Synchronize Root Web Assets to Android Assets folder
+tasks.register('copyWebAssets', Copy) {
+    from "../../dist"
+    into "src/main/assets"
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    
+    // Pro-level regex filter to ensure local asset loading in WebView
+    filter { line ->
+        String result = line.replaceAll('src="/assets/', 'src="./assets/')
+                           .replaceAll('href="/assets/', 'href="./assets/')
+                           .replaceAll('src="/manifest.json"', 'src="./manifest.json"')
+                           .replaceAll('href="/manifest.json"', 'href="./manifest.json"')
+                           .replaceAll('href="/icon-', 'href="./icon-')
+                           .replaceAll('src="/icon-', 'src="./icon-')
+        
+        // Remove security blocks that often cause white screens in local shell
+        result = result.replaceAll(/\bcrossorigin\b/, "")
+        result = result.replaceAll(/<script.*replit-dev-banner.js.*<\/script>/, "")
+        
+        return result
+    }
+}
+
+// Automated workflow: Sync assets before every build
+preBuild.dependsOn copyWebAssets
+
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.webkit:webkit:1.10.0'
+    implementation 'androidx.webkit:webkit:1.11.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 }
