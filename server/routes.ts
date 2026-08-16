@@ -1,12 +1,119 @@
 import type { Express, RequestHandler } from "express";
 import { createServer, type Server } from "http";
+import fs from "fs";
+import path from "path";
+import AdmZip from "adm-zip";
 import { storage } from "./storage";
 import { insertRepairGuideSchema, insertTroubleshootingFlowSchema, insertDeviceComponentSchema, insertFavoriteSchema } from "@shared/schema";
+import { TECHNICAL_MANUALS, getManualById, getManualsByCategory } from "../shared/technical-manuals";
 import { requireAdmin } from "./middleware/adminAuth";
 import { isAuthenticated } from "./auth";
 import { upload } from "./middleware/upload";
+import { runAIDiagnostics, runTechnicalAIChat, type DiagnosticsRequest, type TechnicalChatRequest } from "./ai-diagnostics";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // System Health & Version Connectivity Check Endpoint
+  app.get("/api/health", (_req, res) => {
+    res.json({
+      status: "online",
+      version: "2026.4.2",
+      guidesCount: 624,
+      manualsCount: TECHNICAL_MANUALS.length,
+      timestamp: new Date().toISOString()
+    });
+  });
+
+  app.get("/api/version", (_req, res) => {
+    res.json({
+      version: "2026.4.2",
+      status: "operational",
+      mode: process.env.NODE_ENV || "development",
+      features: {
+        aiAssistant: true,
+        offlineSync: true,
+        totalGuides: 624,
+        totalManuals: 8
+      }
+    });
+  });
+
+  // Technical Manuals Endpoints
+  app.get("/api/technical-manuals", (req, res) => {
+    try {
+      res.setHeader("Cache-Control", "public, max-age=120, stale-while-revalidate=600");
+      const { category } = req.query;
+      if (category && typeof category === "string") {
+        return res.json(getManualsByCategory(category));
+      }
+      res.json(TECHNICAL_MANUALS);
+    } catch (error) {
+      console.error("Error fetching technical manuals:", error);
+      res.status(500).json({ message: "Failed to fetch technical manuals" });
+    }
+  });
+
+  app.get("/api/technical-manuals/:id", (req, res) => {
+    try {
+      const { id } = req.params;
+      const manual = getManualById(id);
+      if (!manual) {
+        return res.status(404).json({ message: "Technical manual not found" });
+      }
+      res.json(manual);
+    } catch (error) {
+      console.error("Error fetching manual by id:", error);
+      res.status(500).json({ message: "Failed to fetch technical manual" });
+    }
+  });
+
+  // Technical AI Conversational Chat Endpoint (Grounding in 624 Guides & Manuals)
+  app.post("/api/ai/chat", async (req, res) => {
+    try {
+      const { messages, deviceContext, categoryContext } = req.body;
+      if (!messages || !Array.isArray(messages) || messages.length === 0) {
+        return res.status(400).json({ message: "Valid messages array is required." });
+      }
+
+      const chatPayload: TechnicalChatRequest = {
+        messages,
+        deviceContext,
+        categoryContext
+      };
+
+      const reply = await runTechnicalAIChat(chatPayload);
+      res.json(reply);
+    } catch (error) {
+      console.error("Technical AI Chat Error:", error);
+      res.status(500).json({ message: "An unexpected error occurred during AI chat." });
+    }
+  });
+
+  // AI Diagnostics Assistant Endpoint
+  app.post("/api/ai/troubleshoot", async (req, res) => {
+    try {
+      const { symptoms, deviceType, brand, model, os, category, errorCode } = req.body;
+      if (!symptoms || typeof symptoms !== "string" || symptoms.trim().length === 0) {
+        return res.status(400).json({ message: "Symptoms or issue description is required." });
+      }
+
+      const diagnosticPayload: DiagnosticsRequest = {
+        symptoms: symptoms.trim(),
+        deviceType: deviceType || "all",
+        brand: brand || "",
+        model: model || "",
+        os: os || "",
+        category: category || "all",
+        errorCode: errorCode || ""
+      };
+
+      const result = await runAIDiagnostics(diagnosticPayload);
+      res.json(result);
+    } catch (error) {
+      console.error("AI Diagnostics Endpoint Error:", error);
+      res.status(500).json({ message: "An unexpected error occurred during diagnostics." });
+    }
+  });
+
   // Auth & Profile routes
   app.get('/api/auth/user', isAuthenticated, (req, res) => {
     res.json(req.user);
@@ -85,6 +192,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Repair Guides
   app.get("/api/repair-guides", async (req, res) => {
     try {
+      res.setHeader("Cache-Control", "public, max-age=60, stale-while-revalidate=300");
       const { deviceType, category, difficulty } = req.query;
       const guides = await storage.getRepairGuides({
         deviceType: deviceType as string,
@@ -418,6 +526,78 @@ export async function registerRoutes(app: Express): Promise<Server> {
         sha256_cert_fingerprints: ["73:8B:D2:DB:FC:57:4D:5B:F1:A5:28:C5:01:B6:17:C7:7F:80:74:EE:B5:FD:0C:DB:12:CE:03:C8:35:D3:08:BE"]
       }
     }]);
+  });
+
+  // Dynamic ZIP Exporter for Android Studio & Offline Project Bundle
+  app.get(["/api/export-android-zip", "/api/export-zip", "/api/download/android-studio-zip"], (_req, res) => {
+    try {
+      const filename = "JCR-Guide-Pro-Android-Studio.zip";
+      const prebuiltPath = path.join(process.cwd(), "public", "JCR-Guide-Pro-Android-Studio.zip");
+
+      if (fs.existsSync(prebuiltPath)) {
+        res.setHeader("Content-Type", "application/zip");
+        res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+        return res.sendFile(prebuiltPath);
+      }
+
+      // Generate on-the-fly if prebuilt is not found
+      const zip = new AdmZip();
+      const rootDir = process.cwd();
+
+      // Folders to include in the Android Studio & project export
+      const foldersToInclude = ["android", "src", "shared", "server"];
+      foldersToInclude.forEach((folder) => {
+        const folderPath = path.join(rootDir, folder);
+        if (fs.existsSync(folderPath)) {
+          zip.addLocalFolder(folderPath, folder);
+        }
+      });
+
+      // Include public assets (excluding zip files)
+      const pubDir = path.join(rootDir, "public");
+      if (fs.existsSync(pubDir)) {
+        fs.readdirSync(pubDir).forEach((f) => {
+          if (!f.endsWith(".zip")) {
+            const full = path.join(pubDir, f);
+            if (fs.statSync(full).isDirectory()) {
+              zip.addLocalFolder(full, `public/${f}`);
+            } else {
+              zip.addLocalFile(full, "public");
+            }
+          }
+        });
+      }
+
+      // Essential root configuration files
+      const filesToInclude = [
+        "package.json",
+        "tsconfig.json",
+        "vite.config.ts",
+        "capacitor.config.json",
+        "index.html",
+        "README.md",
+        "metadata.json",
+        ".env.example"
+      ];
+
+      filesToInclude.forEach((file) => {
+        const filePath = path.join(rootDir, file);
+        if (fs.existsSync(filePath)) {
+          zip.addLocalFile(filePath);
+        }
+      });
+
+      const zipBuffer = zip.toBuffer();
+      res.setHeader("Content-Type", "application/zip");
+      res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+      res.setHeader("Content-Length", zipBuffer.length.toString());
+      res.send(zipBuffer);
+    } catch (error) {
+      console.error("Export ZIP route error:", error);
+      if (!res.headersSent) {
+        res.status(500).json({ message: "Could not create zip archive" });
+      }
+    }
   });
 
   const httpServer = createServer(app);

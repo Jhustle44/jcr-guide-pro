@@ -1,133 +1,113 @@
 package com.jcrguidepro.app;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
-import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.webkit.WebViewAssetLoader;
 
-/**
- * Robust Hybrid MainActivity that loads local HTML files using WebViewAssetLoader.
- * This fixes "White Screen" issues by allowing ES modules and correct origin policies.
- */
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "JCR_WebView";
-    private WebView mWebView;
-    private ProgressBar mProgressBar;
-    private WebViewAssetLoader mAssetLoader;
+    private WebView webView;
+    private ProgressBar progressBar;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
-    @SuppressLint("SetJavaScriptEnabled")
+    // Production hosted URL or local assets fallback
+    private static final String APP_URL = "https://ais-pre-ogmb2ectas2ozi5lkeh72n-662334793140.us-west2.run.app";
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    @SuppressLint("SetJavaScriptEnabled")
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_webview);
+        setContentView(R.layout.activity_main);
 
-        mWebView = findViewById(R.id.webview);
-        mProgressBar = findViewById(R.id.progressBar);
-        
-        // Use the standard internal domain for local assets
-        mAssetLoader = new WebViewAssetLoader.Builder()
-                .addPathHandler("/assets/", new WebViewAssetLoader.AssetsPathHandler(this))
-                .build();
+        webView = findViewById(R.id.webview);
+        progressBar = findViewById(R.id.progress_bar);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh);
 
-        // Enable Chrome DevTools remote debugging
-        WebView.setWebContentsDebuggingEnabled(true);
-        
-        setupWebSettings();
-        setupWebViewClients();
-
-        // Load index.html via the asset loader. 
-        // Mapping: /assets/ maps to the app's 'assets' folder.
-        // Files are currently in assets/index.html
-        mWebView.loadUrl("https://appassets.androidplatform.net/assets/index.html");
-    }
-
-    private void setupWebSettings() {
-        WebSettings settings = mWebView.getSettings();
+        // Configure High Performance WebSettings
+        WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setDatabaseEnabled(true);
-        
-        // Essential for modern web frameworks
         settings.setAllowFileAccess(true);
         settings.setAllowContentAccess(true);
-        
-        // Viewport settings
-        settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
-        settings.setSupportZoom(true);
-        settings.setBuiltInZoomControls(true);
+        settings.setUseWideViewPort(true);
+        settings.setBuiltInZoomControls(false);
         settings.setDisplayZoomControls(false);
-        
+        settings.setMediaPlaybackRequiresUserGesture(false);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
-        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-    }
 
-    private void setupWebViewClients() {
-        mWebView.setWebViewClient(new WebViewClient() {
+        // Chrome client for progress handling
+        webView.setWebChromeClient(new WebChromeClient() {
             @Override
-            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                return mAssetLoader.shouldInterceptRequest(request.getUrl());
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress < 100) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    progressBar.setProgress(newProgress);
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
+        });
 
+        // WebViewClient to handle in-app routing
+        webView.setWebViewClient(new WebViewClient() {
             @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                mProgressBar.setVisibility(View.VISIBLE);
-                Log.d(TAG, "Loading URL: " + url);
-            }
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                Uri uri = request.getUrl();
+                String host = uri.getHost();
 
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                mProgressBar.setVisibility(View.GONE);
-                Log.d(TAG, "Finished loading: " + url);
+                // Open external links (like datasheet PDFs or external links) in device browser
+                if (host != null && !host.contains("run.app") && !host.contains("localhost")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                    return true;
+                }
+                return false;
             }
 
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                Log.e(TAG, "WebView Error: " + error.getDescription() + " (URL: " + request.getUrl() + ")");
                 if (request.isForMainFrame()) {
-                    mProgressBar.setVisibility(View.GONE);
+                    Toast.makeText(MainActivity.this, "Offline Bench Mode: Loading cached repair guides...", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        mWebView.setWebChromeClient(new WebChromeClient() {
+        // Pull to refresh support
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                mProgressBar.setProgress(newProgress);
-                if (newProgress == 100) {
-                    mProgressBar.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-                Log.d(TAG, "JS Console: [" + consoleMessage.messageLevel() + "] " + consoleMessage.message());
-                return true;
+            public void onRefresh() {
+                webView.reload();
             }
         });
+
+        // Load the JCR Guide Pro App
+        webView.loadUrl(APP_URL);
     }
 
     @Override
-    public void onBackPressed() {
-        if (mWebView.canGoBack()) {
-            mWebView.goBack();
-        } else {
-            super.onBackPressed();
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
+            webView.goBack();
+            return true;
         }
+        return super.onKeyDown(keyCode, event);
     }
 }

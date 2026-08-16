@@ -1,0 +1,8 @@
+{
+  "name": "Remix JCR Guide Pro",
+  "description": "Comprehensive computer and laptop repair guides, diagnostic troubleshooting flowcharts, hardware component guides, and device compatibility tools.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

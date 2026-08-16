@@ -1,0 +1,181 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+}
+
+:root, .light {
+  /* Pristine Glossy White - Porcelain, Glass Sheen & Refined Clarity */
+  --background: hsl(0 0% 100%); /* 100% Pure Glossy White */
+  --foreground: hsl(222.2 47.4% 11.2%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(222.2 47.4% 11.2%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(222.2 47.4% 11.2%);
+  --primary: hsl(243 75% 59%); /* Indigo 600 */
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(210 30% 97.5%);
+  --secondary-foreground: hsl(222.2 47.4% 11.2%);
+  --muted: hsl(210 30% 97.5%);
+  --muted-foreground: hsl(215.4 16.3% 44%);
+  --accent: hsl(210 30% 97.5%);
+  --accent-foreground: hsl(222.2 84% 4.9%);
+  --destructive: hsl(0 84.2% 60.2%);
+  --destructive-foreground: hsl(0 0% 100%);
+  --border: hsl(214 20% 91%);
+  --input: hsl(214 20% 91%);
+  --ring: hsl(243 75% 59%);
+  --radius: 1.25rem;
+}
+
+.dark {
+  /* Elegant Dark - Rich Slate */
+  --background: hsl(222.2 84% 4.9%);
+  --foreground: hsl(210 40% 98%);
+  --card: hsl(222.2 84% 6%);
+  --card-foreground: hsl(210 40% 98%);
+  --popover: hsl(222.2 84% 5%);
+  --popover-foreground: hsl(210 40% 98%);
+  --primary: hsl(243 75% 59%);
+  --primary-foreground: hsl(210 40% 98%);
+  --secondary: hsl(217.2 32.6% 12%);
+  --secondary-foreground: hsl(210 40% 98%);
+  --muted: hsl(217.2 32.6% 12%);
+  --muted-foreground: hsl(215 20.2% 65.1%);
+  --accent: hsl(217.2 32.6% 12%);
+  --accent-foreground: hsl(210 40% 98%);
+  --destructive: hsl(0 62.8% 30.6%);
+  --destructive-foreground: hsl(210 40% 98%);
+  --border: hsl(217.2 32.6% 12%);
+  --input: hsl(217.2 32.6% 12%);
+  --ring: hsl(243 75% 59%);
+}
+
+.amoled {
+  /* Pure AMOLED - Absolute Black */
+  --background: hsl(0 0% 0%);
+  --foreground: hsl(0 0% 100%);
+  --card: hsl(0 0% 4%);
+  --card-foreground: hsl(0 0% 100%);
+  --popover: hsl(0 0% 2%);
+  --popover-foreground: hsl(0 0% 100%);
+  --primary: hsl(243 75% 65%);
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(0 0% 8%);
+  --secondary-foreground: hsl(0 0% 100%);
+  --muted: hsl(0 0% 8%);
+  --muted-foreground: hsl(0 0% 70%);
+  --accent: hsl(0 0% 10%);
+  --accent-foreground: hsl(0 0% 100%);
+  --destructive: hsl(0 84% 45%);
+  --destructive-foreground: hsl(0 0% 100%);
+  --border: hsl(0 0% 12%);
+  --input: hsl(0 0% 12%);
+  --ring: hsl(243 75% 65%);
+}
+
+* {
+  border-color: var(--border);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  transition-property: color, background-color, border-color;
+  transition-duration: 300ms;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  vertical-align: middle;
+}
+
+.glass-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Pristine Glossy White Styling */
+.light body {
+  background-color: #ffffff;
+  background-image: 
+    radial-gradient(at 10% 0%, rgba(243, 246, 255, 0.9) 0px, transparent 50%),
+    radial-gradient(at 90% 10%, rgba(245, 243, 255, 0.8) 0px, transparent 45%),
+    radial-gradient(at 50% 100%, rgba(240, 249, 255, 0.6) 0px, transparent 60%);
+  background-attachment: fixed;
+}
+
+.light .glass-card,
+.light .glossy-card {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    0 10px 30px -8px rgba(0, 0, 0, 0.04),
+    0 2px 6px -1px rgba(0, 0, 0, 0.02),
+    inset 0 1px 1px 0 #ffffff;
+}
+
+.light [class*="bg-card"] {
+  box-shadow: 
+    0 4px 20px -4px rgba(0, 0, 0, 0.03),
+    0 1px 3px 0 rgba(0, 0, 0, 0.02),
+    inset 0 1px 0 0 #ffffff;
+}
+
+.light .glossy-button {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 
+    0 1px 2px 0 rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 0 #ffffff;
+}
+
+.neo-shadow {
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+/* Custom Scrollbar for Modern look */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(150, 150, 150, 0.2);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(150, 150, 150, 0.4);
+}

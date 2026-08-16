@@ -1,6 +1,5 @@
 import { sql } from "drizzle-orm";
 import { pgTable, text, varchar, integer, boolean, json, timestamp, jsonb, index } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 export const repairGuides = pgTable("repair_guides", {
@@ -44,8 +43,14 @@ export type RepairStep = {
   title: string;
   description: string;
   imageUrl?: string;
+  phase?: string;
+  subSteps?: string[];
+  torqueSpec?: string;
+  toolRequired?: string;
+  checkpoints?: string[];
   notes?: string[];
   warnings?: string[];
+  tips?: string[];
 };
 
 export type TroubleshootingStep = {
@@ -59,18 +64,55 @@ export type TroubleshootingStep = {
 };
 
 // Insert schemas
-export const insertRepairGuideSchema = createInsertSchema(repairGuides).omit({
-  id: true,
-  viewCount: true,
-  isBookmarked: true,
+export const insertRepairGuideSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  deviceType: z.string(),
+  category: z.string(),
+  difficulty: z.string(),
+  estimatedTime: z.string(),
+  toolsRequired: z.array(z.string()),
+  safetyWarnings: z.array(z.string()),
+  steps: z.array(z.object({
+    stepNumber: z.number(),
+    title: z.string(),
+    description: z.string(),
+    imageUrl: z.string().optional(),
+    phase: z.string().optional(),
+    subSteps: z.array(z.string()).optional(),
+    torqueSpec: z.string().optional(),
+    toolRequired: z.string().optional(),
+    checkpoints: z.array(z.string()).optional(),
+    notes: z.array(z.string()).optional(),
+    warnings: z.array(z.string()).optional(),
+    tips: z.array(z.string()).optional(),
+  })),
+  alternativeSolutions: z.string().optional().nullable(),
+  imageUrl: z.string(),
+  downloadCount: z.number().optional(),
 });
 
-export const insertTroubleshootingFlowSchema = createInsertSchema(troubleshootingFlows).omit({
-  id: true,
+export const insertTroubleshootingFlowSchema = z.object({
+  type: z.string(),
+  title: z.string(),
+  description: z.string(),
+  steps: z.array(z.object({
+    id: z.string(),
+    question: z.string(),
+    answers: z.array(z.object({
+      text: z.string(),
+      nextStepId: z.string().optional(),
+      solutionId: z.string().optional(),
+    })),
+  })),
 });
 
-export const insertDeviceComponentSchema = createInsertSchema(deviceComponents).omit({
-  id: true,
+export const insertDeviceComponentSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  deviceType: z.string(),
+  category: z.string(),
+  safetyNotes: z.array(z.string()),
 });
 
 // Types
@@ -83,7 +125,7 @@ export type InsertTroubleshootingFlow = z.infer<typeof insertTroubleshootingFlow
 export type DeviceComponent = typeof deviceComponents.$inferSelect;
 export type InsertDeviceComponent = z.infer<typeof insertDeviceComponentSchema>;
 
-// Session storage table for Replit Auth
+// Session storage table
 export const sessions = pgTable(
   "sessions",
   {
@@ -94,7 +136,7 @@ export const sessions = pgTable(
   (table) => [index("IDX_session_expire").on(table.expire)],
 );
 
-// User storage table for Replit Auth
+// User storage table
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   email: varchar("email").unique().notNull(),
@@ -102,19 +144,19 @@ export const users = pgTable("users", {
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   profileImageUrl: varchar("profile_image_url"),
-  role: varchar("role").default("user"), // "admin" gets extra powers
+  role: varchar("role").default("user"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-// Favorites table to store user's favorite guides and videos
+// Favorites table
 export const favorites = pgTable("favorites", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-  itemType: text("item_type").notNull(), // "guide" | "video" | "troubleshooting"
-  itemId: varchar("item_id").notNull(), // ID of the favorited item
-  itemTitle: text("item_title").notNull(), // Cache the title for quick display
-  itemImageUrl: text("item_image_url"), // Cache image URL
+  itemType: text("item_type").notNull(),
+  itemId: varchar("item_id").notNull(),
+  itemTitle: text("item_title").notNull(),
+  itemImageUrl: text("item_image_url"),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -122,10 +164,10 @@ export const favorites = pgTable("favorites", {
 export const deviceBrands = pgTable("device_brands", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   name: varchar("name").notNull(),
-  deviceType: text("device_type").notNull(), // 'laptop' or 'desktop'
+  deviceType: text("device_type").notNull(),
   logoUrl: varchar("logo_url"),
-  supportLevel: varchar("support_level").notNull().default("community"), // 'official', 'community', 'basic'
-  popularity: integer("popularity").default(0), // For sorting brands by popularity
+  supportLevel: varchar("support_level").notNull().default("community"),
+  popularity: integer("popularity").default(0),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -134,49 +176,64 @@ export const deviceModels = pgTable("device_models", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   brandId: varchar("brand_id").notNull().references(() => deviceBrands.id),
   name: varchar("name").notNull(),
-  series: varchar("series"), // e.g., "ThinkPad", "Inspiron", "Pavilion"
+  series: varchar("series"),
   year: integer("year"),
-  specifications: jsonb("specifications"), // CPU, RAM, storage, etc.
-  commonIssues: jsonb("common_issues").default(sql`'[]'::jsonb`), // Array of common problems
-  guideCount: integer("guide_count").default(0), // Number of compatible guides
+  specifications: jsonb("specifications"),
+  commonIssues: jsonb("common_issues").default(sql`'[]'::jsonb`),
+  guideCount: integer("guide_count").default(0),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
-// Guide compatibility table (many-to-many between guides and models)
+// Guide compatibility table
 export const guideCompatibility = pgTable("guide_compatibility", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   guideId: varchar("guide_id").notNull().references(() => repairGuides.id),
   modelId: varchar("model_id").notNull().references(() => deviceModels.id),
-  compatibility: varchar("compatibility").notNull().default("compatible"), // 'compatible', 'partial', 'not_compatible'
-  notes: text("notes"), // Specific notes about compatibility
+  compatibility: varchar("compatibility").notNull().default("compatible"),
+  notes: text("notes"),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
-// Insert schemas for new tables
-export const insertUserSchema = createInsertSchema(users).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
+// Insert schemas
+export const insertUserSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+  firstName: z.string().optional().nullable(),
+  lastName: z.string().optional().nullable(),
+  profileImageUrl: z.string().optional().nullable(),
+  role: z.string().optional().default("user"),
 });
 
-export const insertFavoriteSchema = createInsertSchema(favorites).omit({
-  id: true,
-  createdAt: true,
+export const insertFavoriteSchema = z.object({
+  itemType: z.string(),
+  itemId: z.string(),
+  itemTitle: z.string(),
+  itemImageUrl: z.string().optional().nullable(),
 });
 
-export const insertDeviceBrandSchema = createInsertSchema(deviceBrands).omit({
-  id: true,
-  createdAt: true,
+export const insertDeviceBrandSchema = z.object({
+  name: z.string(),
+  deviceType: z.string(),
+  logoUrl: z.string().optional().nullable(),
+  supportLevel: z.string().default("community"),
+  popularity: z.number().optional().default(0),
 });
 
-export const insertDeviceModelSchema = createInsertSchema(deviceModels).omit({
-  id: true,
-  createdAt: true,
+export const insertDeviceModelSchema = z.object({
+  brandId: z.string(),
+  name: z.string(),
+  series: z.string().optional().nullable(),
+  year: z.number().optional().nullable(),
+  specifications: z.any().optional().nullable(),
+  commonIssues: z.any().optional().nullable(),
+  guideCount: z.number().optional().default(0),
 });
 
-export const insertGuideCompatibilitySchema = createInsertSchema(guideCompatibility).omit({
-  id: true,
-  createdAt: true,
+export const insertGuideCompatibilitySchema = z.object({
+  guideId: z.string(),
+  modelId: z.string(),
+  compatibility: z.string().default("compatible"),
+  notes: z.string().optional().nullable(),
 });
 
 // Types for new tables
