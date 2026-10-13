@@ -1,4 +1,4 @@
-// Memory optimization utilities for the JCR Guide Pro application
+// Memory optimization utilities for the JCRGuru application
 
 // Memory leak prevention utilities
 export class MemoryLeakPrevention {

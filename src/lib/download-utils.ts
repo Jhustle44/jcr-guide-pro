@@ -324,7 +324,7 @@ const generateHTMLGuide = (guide: RepairGuide, includeImages: boolean): string =
     ` : ''}
 
     <div class="section" style="margin-top: 50px; padding-top: 20px; border-top: 1px solid #e2e8f0; text-align: center; color: #718096; font-size: 0.9rem;">
-        <p>Downloaded from JCR Guide Pro • ${new Date().toLocaleDateString()}</p>
+        <p>Downloaded from JCRGuru • ${new Date().toLocaleDateString()}</p>
     </div>
 </body>
 </html>

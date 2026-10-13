@@ -274,7 +274,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const versionInfo = {
         version: "1.0.0",
-        name: "JCR Guide Pro",
+        name: "JCRGuru",
         build: "2025.08.18",
         release: "Major Release"
       };
@@ -334,7 +334,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           ]);
           const exportData = {
             exportInfo: {
-              title: 'JCR Guide Pro Complete Export',
+              title: 'JCRGuru Complete Export',
               version: '1.0',
               exportedAt: new Date().toISOString(),
               totalItems: guides.length + flows.length + components.length

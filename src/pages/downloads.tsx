@@ -236,7 +236,7 @@ export default function Downloads() {
     try {
       const bundle = {
         exportInfo: {
-          title: 'JCR Guide Pro Complete Export',
+          title: 'JCRGuru Complete Export',
           version: '1.0',
           exportedAt: new Date().toISOString(),
           totalItems: repairGuides.length + troubleshootingFlows.length + deviceComponents.length

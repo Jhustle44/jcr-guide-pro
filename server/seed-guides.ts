@@ -3,7 +3,7 @@ import { type InsertRepairGuide } from "@shared/schema";
 import { curatedRepairGuides } from "./seed-data";
 
 /**
- * Technical Seeder for JCR Guide Pro
+ * Technical Seeder for JCRGuru
  * Seeds 180+ comprehensive repair guides accurately organized into the 4 core categories:
  * - hardware
  * - software

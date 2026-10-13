@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.jcrguidepro.app',
-  appName: 'JCR Guide Pro',
+  appName: 'JCRGuru',
   webDir: 'client/dist',
   bundledWebRuntime: false
 };

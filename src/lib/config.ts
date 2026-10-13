@@ -1,5 +1,5 @@
 /**
- * Global Configuration for JCRguru
+ * Global Configuration for JCRGuru
  */
 
 const STORAGE_KEY = "jcrguru_api_base_url";

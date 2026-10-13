@@ -53,7 +53,7 @@ export function InstallBanner() {
               <Download className="h-6 w-6" />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-medium">Install JCR Guide Pro</h3>
+              <h3 className="text-sm font-medium">Install JCRGuru</h3>
               <p className="text-xs text-primary-100 mt-1">
                 Get instant access to repair guides offline. Install our app for the best experience.
               </p>

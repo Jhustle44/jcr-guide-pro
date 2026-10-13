@@ -668,7 +668,7 @@ export default function ManualDetailModal({ manual, onClose }: ManualDetailModal
         <div className="p-6 sm:p-8 bg-muted/30 border-t border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
             <ShieldCheck className="h-4 w-4" />
-            <span>Verified Official JCRguru Start-to-Finish Engineering Specification</span>
+            <span>Verified Official JCRGuru Start-to-Finish Engineering Specification</span>
           </div>
 
           <div className="flex items-center gap-2 w-full sm:w-auto">

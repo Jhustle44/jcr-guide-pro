@@ -1,6 +1,6 @@
 {
-  "name": "JCRguru",
-  "short_name": "JCRguru",
+  "name": "JCRGuru",
+  "short_name": "JCRGuru",
   "description": "Comprehensive repair guide application for laptops and PCs",
   "start_url": "/",
   "display": "standalone",

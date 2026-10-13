@@ -65,7 +65,7 @@ export default function AuthPage() {
           <div className="h-16 w-16 rounded-2xl bg-primary flex items-center justify-center mb-4 shadow-glass">
             <Wrench className="h-8 w-8 text-white" />
           </div>
-          <h1 className="text-3xl font-black tracking-tight">JCRguru</h1>
+          <h1 className="text-3xl font-black tracking-tight">JCRGuru</h1>
           <p className="text-muted-foreground font-medium">Professional Technician & Diagnostic Hub</p>
         </div>
 

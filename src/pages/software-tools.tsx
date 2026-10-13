@@ -368,7 +368,7 @@ export default function SoftwareTools() {
           </h1>
 
           <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">
-            Centralized repository for verified diagnostic software, bootable ISO utilities, bare-metal drive cloners, driver cleaners, and complete offline JCRguru repair manual bundles.
+            Centralized repository for verified diagnostic software, bootable ISO utilities, bare-metal drive cloners, driver cleaners, and complete offline JCRGuru repair manual bundles.
           </p>
 
           {/* Quick Search */}

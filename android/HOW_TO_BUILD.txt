@@ -1,5 +1,5 @@
 ====================================================
-  JCR Guide Pro — Android APK Build Instructions
+  JCRGuru — Android APK Build Instructions
 ====================================================
 
 STEP 1: Deploy your app first
@@ -82,7 +82,7 @@ Google Play Store Submission
 App Details
 ======================================================
 Package ID:    com.jcrguidepro.app
-App Name:      JCR Guide Pro
+App Name:      JCRGuru
 Min Android:   5.0 (API 21)
 Target:        Android 14 (API 34)
 ======================================================

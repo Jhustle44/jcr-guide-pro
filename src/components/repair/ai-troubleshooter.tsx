@@ -374,7 +374,7 @@ ${result.safetyWarnings?.map(w => `! ${w}`).join("\n")}`;
                 <h4 className="font-bold text-sm">Out of Scope Query</h4>
                 <p className="text-xs leading-relaxed">{result.summary}</p>
                 <p className="text-[11px] opacity-80 pt-1">
-                  The JCR Guide Pro Diagnostic Engine is dedicated strictly to computer, laptop, OS, and electronics troubleshooting.
+                  The JCRGuru Diagnostic Engine is dedicated strictly to computer, laptop, OS, and electronics troubleshooting.
                 </p>
               </div>
             </div>

@@ -1,6 +1,6 @@
 {
   "appId": "com.jcrguidepro.app",
-  "appName": "JCR Guide Pro",
+  "appName": "JCRGuru",
   "webDir": "dist",
   "bundledWebRuntime": false,
   "server": {
