@@ -1,6 +1,6 @@
-# JCR Guide Pro — Android Studio Project
+# JCRGuru — Android Studio Project
 
-This directory contains the ready-to-build Android Studio project for **JCR Guide Pro**.
+This directory contains the ready-to-build Android Studio project for **JCRGuru**.
 
 ## Quick Start in Android Studio
 

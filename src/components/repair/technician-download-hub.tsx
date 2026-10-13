@@ -64,7 +64,7 @@ export const ALL_DOWNLOADS: DownloadItem[] = [
   // ==========================================
   {
     id: "bundle-all-manuals",
-    name: "JCRguru Complete Offline Technical Manuals & Schematics Pack",
+    name: "JCRGuru Complete Offline Technical Manuals & Schematics Pack",
     developer: "JCR Engineering Lab",
     category: "bundles",
     categoryLabel: "Master Offline Bundle",

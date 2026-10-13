@@ -107,7 +107,7 @@ export interface TechnicalChatResponse {
   quickActions?: string[];
 }
 
-const SYSTEM_INSTRUCTION = `You are JCR Guide Pro's expert Hardware & Computer Diagnostic Specialist.
+const SYSTEM_INSTRUCTION = `You are JCRGuru's expert Hardware & Computer Diagnostic Specialist.
 Your SOLE purpose is to diagnose, troubleshoot, and provide step-by-step resolution paths for computer hardware, laptops, desktops, operating systems (Windows, macOS, Linux), peripherals, thermals, BIOS/UEFI, and electronic repairs.
 
 STRICT SCOPE DIRECTIVE:
@@ -359,8 +359,8 @@ export async function runTechnicalAIChat(reqData: TechnicalChatRequest): Promise
     const contextManuals = matchingManuals.map(m => `- [Manual ID: ${m.id}] "${m.title}" (${m.code}): ${m.summary}`).join("\n");
     const contextRails = matchingRails.slice(0, 4).map(r => `- ${r.rail}: ${r.voltage} (${r.location}) - ${r.description}`).join("\n");
 
-    const systemPrompt = `You are JCR Guide Pro's Technical AI, the lead master computer hardware technician, electronics diagnostician, and board-level repair assistant.
-You have direct access to JCR Guide Pro's full database of 624 verified multi-brand repair guides (Apple, Dell, Lenovo, HP, ASUS, Razer, Framework, MSI, Custom PCs) and 8 comprehensive technical manuals.
+    const systemPrompt = `You are JCRGuru's Technical AI, the lead master computer hardware technician, electronics diagnostician, and board-level repair assistant.
+You have direct access to JCRGuru's full database of 624 verified multi-brand repair guides (Apple, Dell, Lenovo, HP, ASUS, Razer, Framework, MSI, Custom PCs) and 8 comprehensive technical manuals.
 
 YOUR CAPABILITIES & PROTOCOLS:
 1. Provide precise, actionable technical instructions with exact fastener torque specs (e.g. 0.20 Nm M2.0), screwdriver bit types (Torx T5, Phillips #00), and test procedures.

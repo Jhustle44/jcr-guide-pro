@@ -22,7 +22,7 @@ export default function Footer() {
             <i className="material-icons text-primary-700 text-xl">build</i>
             <div>
               <h3 className="text-sm font-medium text-gray-900 dark:text-white amoled:text-white">
-                JCR Guide Pro
+                JCRGuru
               </h3>
               <p className="text-xs text-gray-500 dark:text-gray-400">
                 Professional repair guides for everyone
@@ -67,7 +67,7 @@ export default function Footer() {
               </div>
             )}
             <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-              © 2025 JCR Guide Pro
+              © 2025 JCRGuru
             </div>
           </div>
         </div>
